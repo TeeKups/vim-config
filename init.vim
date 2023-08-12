@@ -89,6 +89,6 @@ map e <Plug>CamelCaseMotion_e
 sunmap w
 sunmap b
 sunmap e
-source camelcasemotion.vim
+source $HOME/.config/nvim/camelcasemotion.vim
 
 " camelCaseWord snake_case_word
