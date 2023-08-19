@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+[ ! -d $HOME/.config/nvim ] && mkdir -p $HOME/.config/nvim
+
+cp -r init.lua $HOME/.config/nvim/
+cp -r after $HOME/.config/nvim/
+cp -r lua $HOME/.config/nvim/
+cp -r plugin $HOME/.config/nvim/
+
+tar -xaf dot_local.tar.gz
+
+[ ! -d $HOME/.local/share/nvim ] && mkdir -p $HOME/.local/share/nvim
+cp -r .local/share/nvim $HOME/.local/share
+rm -rf .local
