@@ -2,6 +2,8 @@
 
 set -e
 
+[ "$(pwd)" == $HOME ] && echo "Things will break if you run the script from your home directory." && exit 1
+
 [ ! -d $HOME/.config/nvim ] && mkdir -p $HOME/.config/nvim
 
 cp -r init.lua $HOME/.config/nvim/
