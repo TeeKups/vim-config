@@ -37,7 +37,16 @@ autocmd('TextYankPost', {
     end,
 })
 
--- automatic delete trailing whitespace
+-- run formatter on write
+autocmd('BufWritePre', {
+    group = TeeKupsGroup,
+    pattern = "*",
+    callback = function(args)
+        require("conform").format({ bufnr = args.buf })
+    end
+})
+
+-- automatically delete trailing whitespace
 autocmd({"BufWritePre"}, {
     group = TeeKupsGroup,
     pattern = "*",
