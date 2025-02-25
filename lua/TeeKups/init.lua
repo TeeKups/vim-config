@@ -3,11 +3,11 @@ require('TeeKups.remap')
 require('TeeKups.lazy_init')
 
 -- colors
-vim.cmd.colorscheme "catppuccin"
+--vim.cmd.colorscheme "catppuccin"
 --vim.cmd.colorscheme "dracula"
 --vim.cmd.colorscheme "gruvbox"
 --vim.cmd.colorscheme "rose-pine-moon"
---vim.cmd.colorscheme "tokyonight"
+vim.cmd.colorscheme "tokyonight"
 
 local augroup = vim.api.nvim_create_augroup
 local TeeKupsGroup = augroup('TeeKups', {})

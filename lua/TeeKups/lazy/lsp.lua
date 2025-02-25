@@ -3,6 +3,10 @@ return {
     dependencies = {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+        "j-hui/fidget.nvim",
+
+        -- completion
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
@@ -10,10 +14,17 @@ return {
         "hrsh7th/nvim-cmp",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
-        "j-hui/fidget.nvim",
+        'windwp/nvim-autopairs',
+        -- snippet sources
+        "rafamadriz/friendly-snippets",
     },
 
     config = function()
+        require("nvim-autopairs").setup({
+            event = "InsertEnter",
+            config = true,
+        })
+        local cmp_autopairs = require('nvim-autopairs.completion.cmp')
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
@@ -24,12 +35,47 @@ return {
 
         require("fidget").setup({})
         require("mason").setup()
-        require("mason-lspconfig").setup({
+        require("mason-tool-installer").setup({
             ensure_installed = {
+                -- asm
+                "asm_lsp",
+                "asmfmt",
+                -- Lua
                 "lua_ls",
+                -- Rust
                 "rust_analyzer",
-                "gopls",
-            },
+                -- Go
+                --"gopls",
+                -- C++
+                "clang-format",
+                "clangd",
+                "cmake",
+                "cmakelint",
+                -- Python
+                "black",
+                "mypy",
+                "jedi_language_server",
+                "jinja-lsp",
+                --"pyright",
+                --"basedpyright",
+                "pylint",
+                -- Frontend stuff
+                "eslint",
+                "eslint_d",
+                "prettierd",
+                "ts_ls",
+                "html",
+                "cssls",
+                "svelte",
+                -- misc
+                "jsonlint",
+                "markdownlint",
+                "robotframework_ls",
+                "shellcheck",
+                "yamllint",
+            }
+        })
+        require("mason-lspconfig").setup({
             handlers = {
                 function(server_name) -- default handler (optional)
                     require("lspconfig")[server_name].setup {
@@ -72,25 +118,39 @@ return {
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
+        require("luasnip.loaders.from_vscode").lazy_load()
         cmp.setup({
             snippet = {
                 expand = function(args)
-                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                    require('luasnip').lsp_expand(args.body)
                 end,
             },
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-                ["<C-Space>"] = cmp.mapping.complete(),
+                ['<C-e>'] = cmp.mapping.abort(),
+                ['<C-Space>'] = cmp.mapping.complete(),
+                --['<CR>'] = cmp.mapping.confirm({ select = true }),
+                ["<CR>"] = cmp.mapping({
+                    i = function(fallback)
+                        if cmp.visible() and cmp.get_active_entry() then
+                            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+                        else
+                            fallback()
+                        end
+                    end,
+                    s = cmp.mapping.confirm({ select = true }),
+                    c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+                }),
             }),
             sources = cmp.config.sources({
+                { name = 'luasnip' },
                 { name = 'nvim_lsp' },
-                { name = 'luasnip' }, -- For luasnip users.
             }, {
                 { name = 'buffer' },
             })
         })
+        cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
         vim.diagnostic.config({
             -- update_in_insert = true,

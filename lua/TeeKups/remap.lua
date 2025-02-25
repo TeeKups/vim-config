@@ -32,7 +32,11 @@ vim.keymap.set("n", "<leader>Y", "\"+Y")
 ---- What the fuck is Q
 vim.keymap.set("n", "Q", "<nop>")
 ---- search and replace word under cursor, methinks
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+-- show diagnostic window
+vim.keymap.set("n", "<leader>sd", vim.diagnostic.open_float)
+-- noh
+vim.keymap.set("n", "<leader>noh", "<cmd>noh<CR>")
 
 -- Visual mode
 ---- Move selected line and autoindent
