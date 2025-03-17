@@ -3,7 +3,6 @@ return {
     dependencies = {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
         "j-hui/fidget.nvim",
 
         -- completion
@@ -35,46 +34,6 @@ return {
 
         require("fidget").setup({})
         require("mason").setup()
-        require("mason-tool-installer").setup({
-            ensure_installed = {
-                -- asm
-                "asm_lsp",
-                "asmfmt",
-                -- Lua
-                "lua_ls",
-                -- Rust
-                "rust_analyzer",
-                -- Go
-                --"gopls",
-                -- C++
-                "clang-format",
-                "clangd",
-                "cmake",
-                "cmakelint",
-                -- Python
-                "black",
-                "mypy",
-                "jedi_language_server",
-                "jinja-lsp",
-                --"pyright",
-                --"basedpyright",
-                "pylint",
-                -- Frontend stuff
-                "eslint",
-                "eslint_d",
-                "prettierd",
-                "ts_ls",
-                "html",
-                "cssls",
-                "svelte",
-                -- misc
-                "jsonlint",
-                "markdownlint",
-                "robotframework_ls",
-                "shellcheck",
-                "yamllint",
-            }
-        })
         require("mason-lspconfig").setup({
             handlers = {
                 function(server_name) -- default handler (optional)
