@@ -1,3 +1,10 @@
+-- colors
+--vim.cmd.colorscheme "catppuccin"
+--vim.cmd.colorscheme "dracula"
+--vim.cmd.colorscheme "gruvbox"
+--vim.cmd.colorscheme "rose-pine-moon"
+vim.cmd.colorscheme "tokyonight"
+
 -- ??? this is the default ???
 vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20'
 
@@ -66,3 +73,8 @@ vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "80"
 
 vim.opt.termguicolors = true
+
+-- file browser stuff
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 1
+vim.g.netrw_winsize = 25
