@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -eu
+
+readonly CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
+readonly ARCHIVE_NAME="nvim.tar.gz"
+
+ # shellcheck disable=2094  # ARCHIVE_NAME is NOT being read and written in the same pipeline
+find "$CONFIG_DIR/nvim" \( \
+        -name '.git' \
+        -o -name '.gitignore' \
+        -o -name '.gitmodules' \
+        -o -name 'make-tar' \
+        -o -name "$ARCHIVE_NAME" \
+    \) -prune \
+    -o -type f -printf '%P\0' \
+    | cpio -o -H ustar -0 2> /dev/null \
+    | gzip > "$ARCHIVE_NAME"
+
+echo "$ARCHIVE_NAME created"

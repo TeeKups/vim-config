@@ -11,7 +11,10 @@ return {
         "hrsh7th/nvim-cmp",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
-        'windwp/nvim-autopairs',
+        "windwp/nvim-autopairs",
+
+        -- Docker-based LSPs
+        "lspcontainers/lspcontainers.nvim",
 
         -- snippet sources
         "rafamadriz/friendly-snippets",
@@ -19,12 +22,29 @@ return {
 
     config = function()
         vim.lsp.enable({
+            'bashls',
             'clangd',
             'cmake',
-            'gopls',
             'eslint',
+            'gopls',
             'pyright',
             'robotframework_ls',
+            'kotlin-lsp'
+            --'kotlin-language-server'
+        })
+
+        vim.lsp.config('kotlin-lsp', {
+            cmd = require('lspcontainers').command('kotlin-lsp', {
+                image = "lspcontainers/kotlin-lsp:latest"
+            })
+
+        })
+
+        vim.lsp.config('kotlin-language-server', {
+            cmd = require('lspcontainers').command('kotlin-language-server', {
+                image = "lspcontainers/kotlin-language-server:latest"
+            })
+
         })
 
         require("nvim-autopairs").setup({
